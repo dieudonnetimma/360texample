@@ -1,18 +1,8 @@
 package de.t360.example.model;
 
-import de.t360.example.service.PlayerService;
-import de.t360.example.service.PlayerServiceImpl;
-import de.t360.example.service.ServerChatService;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.hamcrest.CoreMatchers.any;
-import static org.hamcrest.CoreMatchers.anything;
+import org.junit.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
