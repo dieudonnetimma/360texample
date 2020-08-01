@@ -2,6 +2,7 @@ package de.t360.example.service;
 
 
 import de.t360.example.model.*;
+import de.t360.example.utils.InputMethodOptionEnum;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,16 +10,17 @@ import java.util.List;
 
 public class PlayerServiceImpl implements PlayerService {
 
-    //this is the Default text to begin the chat
-    private final String DEFAULT_TEXT = "Hallo_Test";
+
+    private InputMethodService inputMethodService;
     private final int MAX_MESSAGE_SIZE = 10;
     private ServerChatService server;
     private Player player;
     private List<String> messageList = new LinkedList<String>();
 
-    public PlayerServiceImpl(ServerChatService server, Player player) {
+    public PlayerServiceImpl(ServerChatService server, Player player, InputMethodService inputMethodService) {
         this.server = server;
         this.player = player;
+        this.inputMethodService = inputMethodService;
     }
 
     public PlayerServiceImpl() {
@@ -117,27 +119,55 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void run() {
 
+        boolean isDefaultInputMethod = this.inputMethodService.getInputMethodOption().equals(InputMethodOptionEnum.DEFAULT);
+        String playerName = this.getPlayer().getName();
         while (!is_Player_cache_full()) {
-            if (this.getMessageList().isEmpty()) {
 
-                if (this.getServer().has_a_message(this.getPlayer().getName())) {
-                    this.receive();
-                    send();
-                } else {
-                    send(DEFAULT_TEXT);
-                }
+            if (!isDefaultInputMethod) {
+
+                handlerWithInputMethod(playerName);
             } else {
-                this.send();
+
+                handlerWithoutInputMethod(playerName);
             }
 
-            while (!this.getServer().has_a_message(this.getPlayer().getName())) {
+            while (!this.getServer().has_a_message(playerName)) {
                 ;
             }
             this.receive();
         }
-        this.send();
+        if (isDefaultInputMethod) {
+            this.send();
+        } else {
+            String text = this.inputMethodService.inputMethod();
+            send(text);
+        }
+        System.out.println("Player " + playerName + " is finished!");
 
 
+    }
+
+    private void handlerWithoutInputMethod(String playerName) {
+        if (this.getMessageList().isEmpty()) {
+
+            if (this.getServer().has_a_message(playerName)) {
+                this.receive();
+                send();
+            } else {
+                String text = this.inputMethodService.inputMethod();
+                send(text);
+            }
+        } else {
+            this.send();
+        }
+    }
+
+    private void handlerWithInputMethod(String playerName) {
+        if (this.getServer().has_a_message(playerName)) {
+            this.receive();
+        }
+        String text = this.inputMethodService.inputMethod();
+        send(text);
     }
 
 

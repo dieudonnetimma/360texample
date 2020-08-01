@@ -1,5 +1,6 @@
 package de.t360.example.service;
 
+import de.t360.example.utils.InputMethodOptionEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import  de.t360.example.model.*;
@@ -23,11 +24,14 @@ public class PlayerServiceTest {
     public void init(){
         serverChatService = new ServerChatServiceImpl();
         Player player1 =  new Player("Player 1");
-         service1 = new PlayerServiceImpl(serverChatService, player1);
+        InputMethodService inputMethodService1 = new InputMethodeServiceImpl(InputMethodOptionEnum.DEFAULT,player1);
+         service1 = new PlayerServiceImpl(serverChatService, player1,inputMethodService1);
 
 
         Player player2 =  new Player("Player 2");
-         service2 = new PlayerServiceImpl(serverChatService, player2);
+        InputMethodService inputMethodService2 = new InputMethodeServiceImpl(InputMethodOptionEnum.DEFAULT,player2);
+
+        service2 = new PlayerServiceImpl(serverChatService, player2, inputMethodService2);
     }
 
     @Test
