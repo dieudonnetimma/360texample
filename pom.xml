@@ -16,7 +16,7 @@
         <org.junit.platform.version>1.4.0</org.junit.platform.version>
         <maven-surefire-plugin>2.21.0</maven-surefire-plugin>
         <maven-failsafe-plugin>2.16</maven-failsafe-plugin>
-        <commons-lang3.version>3.7</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
